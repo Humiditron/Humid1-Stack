@@ -21,6 +21,8 @@ I still need to correct quite a few things, as well a investigate potential stac
 
 ---
 
+[![Donate to Humid1](https://img.shields.io/badge/Donate-Humid1.com-f36d36?style=for-the-badge&logo=signupgenius&logoColor=white)](https://tools.signupgenius.com/c/support-humid1-project)
+
 
 
 
