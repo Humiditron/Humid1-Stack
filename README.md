@@ -6,7 +6,7 @@ I still need to correct quite a few things, as well a investigate potential stac
 
 ### Wish List  
 - I really wish I could disable thingsboard default sign in option and force everything through the SSO.
-- I wish chatto had a server disablement feature, the client can currently accept 3rd party urls. ``(chatto has some other UI issues I won't outline here)`
+- I wish chatto had a server disablement feature, the client can currently accept 3rd party urls. `(chatto has some other UI issues I won't outline here)`
 - I really wish thingsboard and chatto were theme-able.  
 - Wish I had financial backing for the uptime cost *hint hint*.
 
