@@ -13,12 +13,12 @@ I still need to correct quite a few things, as well a investigate potential stac
 ---
 
 ## AI Powered Notebooks & Learning Resource  
-- [Chatto Notebook](https://notebooklm.google.com/notebook/191e4e90-a561-4675-b713-1850666ef825?utm_source=nlmm_share)  
-- [ThingsBoard Notebook](https://notebooklm.google.com/notebook/79d9fe68-ac46-4366-86d8-e9690a8c7924?utm_source=nlmm_share)  
+- [Chatto Notebook](https://notebook.google.com/notebook/191e4e90-a561-4675-b713-1850666ef825)  
+- [ThingsBoard Notebook](https://notebook.google.com/notebook/79d9fe68-ac46-4366-86d8-e9690a8c7924)  
    - [TB Widget Dev](https://notebook.google.com/notebook/0585badb-b3e3-4df6-b5cd-8497a4235e42)
-- [Authentik Notebook](https://notebooklm.google.com/notebook/ea28ebc1-3d48-49fc-ae3f-ecb7595b529b?utm_source=nlmm_share)  
-- [Tigozip Cap Notebook](https://notebooklm.google.com/notebook/cc1e3702-5827-4fd9-ac0f-1ce16071b4c7?utm_source=nlmm_share)  
-- [Caddy Server Notebook](https://notebooklm.google.com/notebook/371909d9-45ec-44d6-ae4d-ff3297115a53?utm_source=nlmm_share)  
+- [Authentik Notebook](https://notebook.google.com/notebook/ea28ebc1-3d48-49fc-ae3f-ecb7595b529b)  
+- [Tigozip Cap Notebook](https://notebook.google.com/notebook/cc1e3702-5827-4fd9-ac0f-1ce16071b4c7)  
+- [Caddy Server Notebook](https://notebook.google.com/notebook/371909d9-45ec-44d6-ae4d-ff3297115a53)  
 
 ---
 
