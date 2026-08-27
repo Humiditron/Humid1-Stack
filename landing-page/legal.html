@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title id="doc-title-tag">Legal Compliance - HUMID1_OS</title>
+    <link rel="stylesheet" href="/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <!-- Client-side Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        if (localStorage.theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        body {
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .dark body {
+            background-image: radial-gradient(#374151 1px, transparent 1px);
+        }
+        .tech-border {
+            position: relative;
+        }
+        .tech-border::before, .tech-border::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid currentColor;
+        }
+        .tech-border::before {
+            top: -1px; left: -1px;
+            border-right: none; border-bottom: none;
+        }
+        .tech-border::after {
+            bottom: -1px; right: -1px;
+            border-left: none; border-top: none;
+        }
+        .markdown-body h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; border-bottom: 1px solid currentColor; padding-bottom: 0.25rem; }
+        .markdown-body h2 { font-size: 1.25rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-body h3 { font-size: 1rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-body p { margin-bottom: 0.75rem; font-size: 0.875rem; line-height: 1.5; }
+        .markdown-body ul { list-style-type: square; padding-left: 1.25rem; margin-bottom: 0.75rem; font-size: 0.875rem; }
+        .markdown-body li { margin-bottom: 0.25rem; }
+        .markdown-body hr { border-color: currentColor; opacity: 0.2; margin: 1rem 0; }
+        .markdown-body strong { font-weight: 700; }
+    </style>
+</head>
+<body class="bg-background dark:bg-dark-interface-surface text-primary dark:text-dark-interface-stroke min-h-screen flex flex-col font-body-md selection:bg-primary selection:text-on-primary dark:selection:bg-dark-interface-stroke dark:selection:text-dark-interface-surface transition-colors duration-200">
+
+<nav class="docked full-width top-0 border-b border-interface-stroke dark:border-dark-interface-stroke bg-background dark:bg-dark-interface-surface flex justify-between items-center w-full px-4 sm:px-margin py-unit h-16 z-50 sticky">
+    <div class="flex items-center gap-2 sm:gap-gutter">
+        <a href="/" class="font-headline-md sm:font-headline-lg text-headline-md sm:text-headline-lg font-black tracking-tighter text-primary dark:text-dark-interface-stroke">HUMID1_OS</a>
+        <div class="hidden md:flex gap-unit items-center ml-margin">
+            <a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant px-2 py-1 hover:bg-surface-container dark:hover:bg-dark-interface-fill-muted hover:invert transition-all duration-75" href="https://github.com/Humiditron/HUMID1_OS">GITHUB_REPO</a>
+        </div>
+    </div>
+    <div class="flex items-center gap-1 sm:gap-unit flex-wrap">
+        <a class="font-label-caps text-label-caps border border-interface-stroke dark:border-dark-interface-stroke text-primary dark:text-dark-interface-stroke px-2 sm:px-4 py-1 sm:py-2 hover:invert transition-all duration-75 inline-block text-center" href="https://tools.signupgenius.com/c/support-humid1-project">CONTRIBUTE</a>
+        <a class="font-label-caps text-label-caps bg-primary dark:bg-dark-interface-stroke text-on-primary dark:text-dark-interface-surface px-2 sm:px-4 py-1 sm:py-2 hover:invert transition-all duration-75 inline-block text-center" href="https://app.humid1.com">ACCESS</a>
+        <a class="font-label-caps text-label-caps border border-interface-stroke dark:border-dark-interface-stroke text-primary dark:text-dark-interface-stroke px-2 sm:px-4 py-1 sm:py-2 hover:invert transition-all duration-75 inline-block text-center" href="https://chat.humid1.com">CHAT</a>
+        <a class="font-label-caps text-label-caps border border-interface-stroke dark:border-dark-interface-stroke text-primary dark:text-dark-interface-stroke px-2 sm:px-4 py-1 sm:py-2 hover:invert transition-all duration-75 inline-block text-center" href="https://auth.humid1.com/if/flow/default-enrollment-flow/">REGISTER</a>
+        <div class="flex gap-1 ml-1 sm:ml-unit">
+            <button aria-label="Toggle Dark Mode" class="p-1 transition-all duration-75 flex items-center justify-center border border-transparent hover:border-interface-stroke dark:hover:border-dark-interface-stroke hover:bg-surface-container focus:outline-none cursor-pointer" id="theme-toggle">
+                <span class="material-symbols-outlined text-primary dark:text-dark-interface-stroke" style="font-variation-settings: 'FILL' 0;">dark_mode</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-4 sm:px-margin py-8 sm:py-margin gap-margin">
+    <div class="w-full relative tech-border p-4 sm:p-6 border border-interface-stroke dark:border-dark-interface-stroke bg-surface dark:bg-dark-interface-surface shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)]">
+        
+        <div class="font-label-caps text-label-caps border-b border-interface-stroke dark:border-dark-interface-stroke pb-2 mb-4 flex justify-between items-center">
+            <span>SYS_DOCS :: <span id="doc-title-header">LOADING...</span></span>
+            <span class="opacity-70">[LEGAL_COMPLIANCE]</span>
+        </div>
+
+        <div id="content" class="markdown-body max-h-[65vh] overflow-y-auto pr-2 text-primary dark:text-dark-interface-stroke">
+            <p class="font-status-code opacity-70">Fetching verified documentation stream from storage...</p>
+        </div>
+
+        <div class="border-t border-interface-stroke dark:border-dark-interface-stroke pt-4 mt-6 flex justify-between items-center">
+            <span class="font-status-code text-status-code opacity-70">GOVERNING_JURISDICTION: ETNA, LICKING COUNTY, OH</span>
+            <a href="https://auth.humid1.com/if/flow/default-enrollment-flow/" class="font-label-caps text-label-caps bg-primary dark:bg-dark-interface-stroke text-on-primary dark:text-dark-interface-surface px-4 py-2 hover:invert transition-all duration-75 inline-block font-bold">PROCEED_TO_ENROLLMENT</a>
+        </div>
+    </div>
+</main>
+
+<footer class="full-width border-t border-interface-stroke dark:border-dark-interface-stroke bg-background dark:bg-dark-interface-surface flex flex-col lg:flex-row justify-between items-center w-full px-4 sm:px-margin py-6 sm:py-margin gap-6 sm:gap-gutter z-40 relative">
+    <div class="flex flex-col items-center lg:items-start gap-1">
+        <span class="font-headline-md text-headline-md text-primary dark:text-dark-interface-stroke">HUMID1_OS</span>
+        <span class="font-status-code text-status-code opacity-70">v2.5.0_STATIC_BUILD</span>
+    </div>
+    <div class="flex flex-wrap justify-center gap-4 text-center">
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="https://app.humid1.com">ACCESS_APP</a>
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="https://chat.humid1.com">COMMUNITY_CHAT</a>
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="/terms">TERMS_OF_USE</a>
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="/privacy">PRIVACY_POLICY</a>
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="/community">COMMUNITY_GUIDELINES</a>
+        <a class="font-label-caps text-label-caps text-primary dark:text-dark-interface-stroke underline hover:underline" href="https://github.com/Humiditron/HUMID1_OS">GITHUB_REPO</a>
+    </div>
+    <div class="font-label-caps text-label-caps text-center lg:text-right w-full lg:w-auto">
+        © 2154 HUMID1_DYNAMICS. ALL_RIGHTS_RESERVED.
+    </div>
+</footer>
+
+<script>
+    // Theme Switcher
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    const updateThemeIcon = () => {
+        themeToggleBtn.querySelector('span').textContent = html.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+    };
+    updateThemeIcon();
+    themeToggleBtn.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        updateThemeIcon();
+    });
+
+    // Dynamic Markdown Loader Route Map
+    const docMap = {
+        'terms': { file: '/content/terms.md', title: 'TERMS OF USE & SERVICE AGREEMENT' },
+        'privacy': { file: '/content/privacy.md', title: 'PRIVACY POLICY & DATA HANDLING' },
+        'community': { file: '/content/community.md', title: 'COMMUNITY GUIDELINES & CODE OF CONDUCT' },
+        'community-guidelines': { file: '/content/community.md', title: 'COMMUNITY GUIDELINES & CODE OF CONDUCT' }
+    };
+
+    async function loadDocument() {
+        const path = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase() || 'terms';
+        const urlParams = new URLSearchParams(window.location.search);
+        const docKey = urlParams.get('doc') || path;
+
+        const docConfig = docMap[docKey] || docMap['terms'];
+
+        // Update Document Titles
+        document.getElementById('doc-title-tag').textContent = `${docConfig.title} - HUMID1_OS`;
+        document.getElementById('doc-title-header').textContent = docConfig.title;
+
+        try {
+            const response = await fetch(docConfig.file);
+            if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+            const markdownText = await response.text();
+            document.getElementById('content').innerHTML = marked.parse(markdownText);
+        } catch (err) {
+            document.getElementById('content').innerHTML = `
+                <div class="border border-red-500 p-4 text-red-500 bg-red-500/10">
+                    <p class="font-bold">[ERR: DOC_STREAM_FAILED]</p>
+                    <p class="text-sm">Unable to resolve legal document markdown resource at <code>${docConfig.file}</code>.</p>
+                </div>
+            `;
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadDocument);
+</script>
+</body>
+</html>
