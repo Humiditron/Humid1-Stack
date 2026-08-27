@@ -1,6 +1,6 @@
 # TODO.md
 
-List of stuff I need to focus on.
+A List Of Stuff I Need To Focus On.
 
 ### Todo
 
@@ -9,4 +9,4 @@ List of stuff I need to focus on.
 - [ ] Work on TB dashboard + maybe dev?
 - [ ] Fix chatto release docker link.
 - [ ] Finish humid-dew list.
-
+- [ ] Fix custom-cap repo, migrate to a *V E R S I O N E D* diff patch format. Right now the workflow is lacking, as it was tossed together to test a passing thought.
