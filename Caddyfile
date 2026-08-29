@@ -12,48 +12,74 @@
     }
 }
 
-# Authentik SSO, Admin & Enrollment Portal
-auth.humid1.com {
-    reverse_proxy authentik-server:9000 {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto https
+# Reusable Security Policy
+(security) {
+    header {
+        # Enforce HTTPS across subdomains for 1 year with HSTS preload
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+        # Prevent MIME-type sniffing
+        X-Content-Type-Options "nosniff"
+
+        # Clickjacking defense for legacy browsers (matches frame-ancestors below)
+        X-Frame-Options "SAMEORIGIN"
+
+        # Prevent cross-domain policy file loading (Flash/PDF leaks)
+        X-Permitted-Cross-Domain-Policies "none"
+
+        # Protect referrer privacy on cross-origin requests
+        Referrer-Policy "strict-origin-when-cross-origin"
+
+        # Isolate top-level browsing contexts while allowing OAuth/SSO login popups
+        Cross-Origin-Opener-Policy "same-origin-allow-popups"
+
+        # Restrict hardware APIs and browser features
+        Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), display-capture=(), accelerometer=(), gyroscope=()"
+
+        # Strip Caddy server identification header
+        -Server
+
+        # Hardened CSP (adds WebSocket support, iframe restrictions, and form action limits)
+        Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss: ws:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https:;"
     }
 }
 
+# Enforce Apex Domain
+www.humid1.com {
+    redir https://humid1.com{uri} permanent
+}
+
 # Main Landing Page, Static Assets & Legal Documents
-humid1.com, www.humid1.com {
+humid1.com {
+    import security
     root * /var/www/html
 
-    # Route legal URLs internally to legal.html
     @legal path /terms /privacy /community /community-guidelines
     rewrite @legal /legal.html
 
     file_server
 }
 
+# Authentik SSO, Admin & Enrollment Portal
+auth.humid1.com {
+    import security
+    reverse_proxy authentik-server:9000
+}
+
 # ThingsBoard Telemetry Platform
 app.humid1.com {
-    reverse_proxy thingsboard-ce:8080 {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto https
-    }
+    import security
+    reverse_proxy thingsboard-ce:8080
 }
 
 # Chatto Modern Web Chat
 chat.humid1.com {
-    reverse_proxy chatto:4000 {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto https
-    }
+    import security
+    reverse_proxy chatto:4000
 }
 
-# Cap Capthca Service
+# Cap Captcha Service
 cap.humid1.com {
-	reverse_proxy cap:3000
+    import security
+    reverse_proxy cap:3000
 }
