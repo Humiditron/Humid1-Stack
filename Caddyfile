@@ -24,6 +24,17 @@
     }
 }
 
+# Add CORS specifically for the ThingsBoard API
+(cors) {
+    header {
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Authorization, Content-Type, X-Authorization"
+    }
+    @options method OPTIONS
+    respond @options 204
+}
+
 # Static Web App CSP (Use only on standard static or single-origin web apps)
 (app-csp) {
     header {
@@ -50,6 +61,7 @@ humid1.com {
 # Authentik SSO - Uses base security only (lets Authentik handle CSP)
 auth.humid1.com {
     import security-base
+	import cors
     reverse_proxy authentik-server:9000
 }
 
