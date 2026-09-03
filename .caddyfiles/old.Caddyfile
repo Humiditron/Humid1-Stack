@@ -1,0 +1,59 @@
+{
+    email support@humid1.com
+
+    layer4 {
+        # Secure MQTT on port 8883 (terminates TLS using humid1.com certificate)
+        :8883 {
+            route {
+                tls
+                proxy thingsboard-ce:1883
+            }
+        }
+    }
+}
+
+# Authentik SSO, Admin & Enrollment Portal
+auth.humid1.com {
+    reverse_proxy authentik-server:9000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+}
+
+# Main Landing Page, Static Assets & Legal Documents
+humid1.com, www.humid1.com {
+    root * /var/www/html
+
+    # Route legal URLs internally to legal.html
+    @legal path /terms /privacy /community /community-guidelines
+    rewrite @legal /legal.html
+
+    file_server
+}
+
+# ThingsBoard Telemetry Platform
+app.humid1.com {
+    reverse_proxy thingsboard-ce:8080 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+}
+
+# Chatto Modern Web Chat
+chat.humid1.com {
+    reverse_proxy chatto:4000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+}
+
+# Cap Capthca Service
+cap.humid1.com {
+	reverse_proxy cap:3000
+}

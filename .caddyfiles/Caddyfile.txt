@@ -24,14 +24,12 @@
     }
 }
 
-# Add CORS for cross-origin API requests from dash.humid1.com
+# Add CORS specifically for the ThingsBoard API
 (cors) {
     header {
-        Access-Control-Allow-Origin "https://dash.humid1.com"
-        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-        Access-Control-Allow-Headers "Authorization, Content-Type, X-Authorization, X-Requested-With, Accept"
-        Access-Control-Allow-Credentials "true"
-        Vary Origin
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Authorization, Content-Type, X-Authorization"
     }
     @options method OPTIONS
     respond @options 204
@@ -51,9 +49,8 @@ www.humid1.com {
 
 # Main Landing Page
 humid1.com {
-    #import security-base
-    #import app-csp
-	
+    import security-base
+    import app-csp
     root * /var/www/html
 
     @legal path /terms /privacy /community /community-guidelines
@@ -64,54 +61,32 @@ humid1.com {
 
 # Authentik SSO - Uses base security only (lets Authentik handle CSP)
 auth.humid1.com {
-    #import security-base
-	#import cors
-	
+    import security-base
+	import cors
     reverse_proxy authentik-server:9000
 }
 
 # TB Instance
 app.humid1.com {
-    log {
-        output stdout
-        format console
-    }
-	reverse_proxy http://thingsboard-ce:8080
+    import security-base
+    reverse_proxy thingsboard-ce:8080
 }
 
 # Chatto Instance
 chat.humid1.com {
-    #import security-base
-	
+    import security-base
     reverse_proxy chatto:4000
 }
 
 # CAP Captcha
 cap.humid1.com {
-    #import security-base
-	
+    import security-base
     reverse_proxy cap:3000
 }
 
 # HUMID1 OS Web Dashboard Container
 dash.humid1.com {
-    # 1. Reverse proxy ThingsBoard API & WebSockets
-    handle /api/* {
-        reverse_proxy https://app.humid1.com {
-            header_up Host app.humid1.com
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-        }
-    }
-
-    # 2. Reverse proxy ThingsBoard OAuth2 login / Authentik callback routes
-    handle /login/oauth2/* {
-        reverse_proxy https://app.humid1.com {
-            header_up Host app.humid1.com
-        }
-    }
-
-    # 3. Serve the HUMID1_OS Dashboard SPA
-	reverse_proxy webapp:5000
+    import security-base
+    import app-csp
+    reverse_proxy webapp:80
 }
