@@ -1,117 +1,128 @@
 {
-    email support@humid1.com
+	email support@humid1.com
 
-    layer4 {
-        :8883 {
-            route {
-                tls
-                proxy thingsboard-ce:1883
-            }
-        }
-    }
+	layer4 {
+		:8883 {
+			route {
+				tls
+				proxy {
+					upstream thingsboard-ce:1883
+				}
+			}
+		}
+	}
 }
 
 # Base Security Headers (Safe for Authentik & SSO Apps)
 (security-base) {
-    header {
-        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-        X-Content-Type-Options "nosniff"
-        X-Frame-Options "SAMEORIGIN"
-        X-Permitted-Cross-Domain-Policies "none"
-        Referrer-Policy "strict-origin-when-cross-origin"
-        Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), display-capture=(), accelerometer=(), gyroscope=()"
-        -Server
-    }
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		X-Permitted-Cross-Domain-Policies "none"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), display-capture=(), accelerometer=(), gyroscope=()"
+		-Server
+	}
 }
 
 # Add CORS for cross-origin API requests from dash.humid1.com
 (cors) {
-    header {
-        Access-Control-Allow-Origin "https://dash.humid1.com"
-        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-        Access-Control-Allow-Headers "Authorization, Content-Type, X-Authorization, X-Requested-With, Accept"
-        Access-Control-Allow-Credentials "true"
-        Vary Origin
-    }
-    @options method OPTIONS
-    respond @options 204
+	header {
+		Access-Control-Allow-Origin "https://dash.humid1.com"
+		Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+		Access-Control-Allow-Headers "Authorization, Content-Type, X-Authorization, X-Requested-With, Accept"
+		Access-Control-Allow-Credentials "true"
+		Vary "Origin"
+	}
+	@options method OPTIONS
+	respond @options 204
 }
 
 # Static Web App CSP (Use only on standard static or single-origin web apps)
 (app-csp) {
-    header {
-        Cross-Origin-Opener-Policy "same-origin-allow-popups"
-        Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss: ws:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https:;"
-    }
+	header {
+		Cross-Origin-Opener-Policy "same-origin-allow-popups"
+		Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss: ws:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https:;"
+	}
 }
 
 www.humid1.com {
-    redir https://humid1.com{uri} permanent
+	redir https://humid1.com{uri} permanent
 }
 
 # Main Landing Page
 humid1.com {
-    #import security-base
-    #import app-csp
-	
-    root * /var/www/html
+	import security-base
+	import app-csp
 
-    @legal path /terms /privacy /community /community-guidelines
-    rewrite @legal /legal.html
+	root * /var/www/html
 
-    file_server
+	@legal path /terms /privacy /community /community-guidelines
+	rewrite @legal /legal.html
+
+	file_server
 }
 
-# Authentik SSO - Uses base security only (lets Authentik handle CSP)
+# Authentik SSO
 auth.humid1.com {
-    #import security-base
-	#import cors
-	
-    reverse_proxy authentik-server:9000
+	import security-base
+	import cors
+
+	reverse_proxy authentik-server:9000
 }
 
 # TB Instance
 app.humid1.com {
-    log {
-        output stdout
-        format console
-    }
+	import security-base
+
 	reverse_proxy http://thingsboard-ce:8080
 }
 
 # Chatto Instance
 chat.humid1.com {
-    #import security-base
-	
-    reverse_proxy chatto:4000
+	import security-base
+
+	reverse_proxy chatto:4000
 }
 
 # CAP Captcha
 cap.humid1.com {
-    #import security-base
-	
-    reverse_proxy cap:3000
+	import security-base
+
+	reverse_proxy cap:3000
 }
 
 # HUMID1 OS Web Dashboard Container
 dash.humid1.com {
-    # 1. Reverse proxy ThingsBoard API & WebSockets
-    handle /api/* {
-        reverse_proxy https://app.humid1.com {
-            header_up Host app.humid1.com
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-        }
-    }
+	import security-base
 
-    # 2. Reverse proxy ThingsBoard OAuth2 login / Authentik callback routes
-    handle /login/oauth2/* {
-        reverse_proxy https://app.humid1.com {
-            header_up Host app.humid1.com
-        }
-    }
+	# 1. Direct handling for Digital Asset Links verification
+	handle /.well-known/assetlinks.json {
+		header Content-Type "application/json"
+		respond `[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.humid1.app",
+    "sha256_cert_fingerprints": [
+      "EB:F7:73:E4:4B:D5:C8:FD:50:AF:E6:37:DF:86:31:FD:61:5B:B9:09:B6:F0:69:C5:03:F9:D6:FC:E6:A3:47:E0"
+    ]
+  }
+}]` 200
+	}
 
-    # 3. Serve the HUMID1_OS Dashboard SPA
-	reverse_proxy webapp:5000
+	# 2. Proxy OAuth2 authentication endpoints directly to ThingsBoard CE
+	handle /oauth2/* {
+		reverse_proxy thingsboard-ce:8080
+	}
+
+	handle /login/oauth2/* {
+		reverse_proxy thingsboard-ce:8080
+	}
+
+	# 3. Serve the HUMID1_OS Dashboard SPA for all other routes
+	handle {
+		reverse_proxy webapp:5000
+	}
 }
